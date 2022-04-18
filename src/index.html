@@ -1,13 +1,798 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Angularinvoice</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-</head>
-<body>
-  <app-root></app-root>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <title>Angularinvoice</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <style>
+      .input_data {
+        border: 1px solid #f2f3f7;
+        background-color: #f2f3f7;
+        padding: 4px;
+      }
+      .input_align_first::before {
+        content: "#";
+        padding: 4px;
+        font-size: 17px;
+        background-color: #f2f3f7;
+      }
+      ul,
+      li {
+        display: inline;
+        margin: 10px;
+      }
+      input[type="file"] {
+        margin-top: 5px;
+      }
+      input[type="date"]::-webkit-calendar-picker-indicator {
+        color: rgba(0, 0, 0, 0);
+        opacity: 1;
+        display: block;
+        /* background: url(arrow.png) no-repeat; */
+        background: url("assets/image/arrow.png") no-repeat;
+        width: 20px;
+        height: 20px;
+        border-width: thin;
+        margin-top: 3px;
+      }
+
+      body {
+        overflow-x: hidden; /* Hide scrollbars */
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous"
+    />
+    <!-- <link rel="icon" href="assets/image/dollar.png" /> -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.debug.js"></script>
+    <link rel="stylesheet" href="assets/stylesheets/main.css" />
+    <script defer src="assets/JS/main.js"></script>
+    <script defer src="assets/JS/PDF.js"></script>
+    <script defer src="assets/JS/addLineItem.js"></script>
+    <script defer src="assets/JS/remLineItem.js"></script>
+    <script defer src="assets/JS/updateBalance.js"></script>
+    <script defer src="assets/JS/currencyPicker.js"></script>
+  </head>
+  <body>
+    <!--New Layout Start -->
+    <div class="container-fluid main">
+      <!--Container Start-->
+      <div class="col-md-12 sm-12">
+        <!--Column Start-->
+        <div class="first_page"></div>
+        <div class="row">
+          <!-- Main Row start-->
+
+          <div class="col-md-8 col-sm-8 overall_first">
+            <!--COl-8 START-->
+            <div class="row first_row_first">
+              <!--1st Row START-->
+              <div class="col-md-4 col-sm-4 first_row">
+                <form>
+                  <!--Add Logo-->
+                  <div class="image-size">
+                    <div
+                      class="form-group jumbotron text-center imageSize"
+                      id="log"
+                    >
+                      <label for="logo" style="cursor: pointer" id="hide">
+                        <span class="fa fa-plus"></span>
+                        Add Your Logo
+                      </label>
+
+                      <input type="file" class="form-control-file" id="logo" />
+                    </div>
+                  </div>
+
+                  <!--Invoice from-->
+                  <!-- <div class="form-group">
+                <input
+                  type="text"
+                  name="from"
+                  class="form-control"
+                  id="from"
+                  placeholder="Who is this invoice from?"
+                />
+              </div> -->
+                  <!--Invoice to-->
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      id="toShow"
+                      class="input_align_1"
+                      value="Bill From:"
+                    />
+                    <input type="text" name="to" class="form-control" id="to" />
+                  </div>
+                </form>
+              </div>
+              <div class="col-md-4 col-sm-4 second_column">
+                <form class="form-inline">
+                  <div class="text_align_1"></div>
+                  <!-- <div class="align_desktop"> -->
+                  <div class="form-group text_align align_desktop">
+                    <input
+                      type="text"
+                      class="input_align"
+                      id="file"
+                      value="InVoice :"
+                      readonly
+                    />
+                    <span class="filename_symbol"
+                      ># <input type="text" class="filename_box" id="fileName"
+                    /></span>
+                  </div>
+                  <!-- </div> -->
+
+                  <div class="align_mobile">
+                    <div class="form-group text_align">
+                      <input
+                        type="text"
+                        class="input_align"
+                        id="file"
+                        value="InVoice :"
+                        readonly
+                      />
+                      <div class="input_data">
+                        <span class="input_align_first">
+                          <input type="text" />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- value="File Name"  -->
+                  <!--Date of Invoice-->
+                  <div class="text_align"></div>
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      class="date_show_1 input_align"
+                      value="Date :"
+                      id="dateShow"
+                    />
+
+                    <input
+                      type="date"
+                      name="date"
+                      class="date_show_2 input_align"
+                      id="date"
+                    />
+                  </div>
+                  <!--Due date-->
+                  <div class="text_align_2"></div>
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      class="input_align"
+                      value="Due Date :"
+                      id="dueShow"
+                    />
+                    <input
+                      type="date"
+                      class="input_align"
+                      name="dueDate"
+                      id="due"
+                    />
+                  </div>
+                  <div class="text_align"></div>
+                  <!--Payment Terms-->
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      id="toShow2"
+                      class="input_align"
+                      value="Payment Terms:"
+                    />
+                    <input
+                      type="text"
+                      name="to"
+                      class="form-control"
+                      id="to2"
+                    />
+                  </div>
+                  <div class="text_align_2"></div>
+                  <!--Po Number-->
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      class="input_align"
+                      id="toShow3"
+                      value="Po Number:"
+                    />
+                    <input
+                      type="text"
+                      name="to"
+                      class="form-control"
+                      id="to3"
+                    />
+                  </div>
+                  <!--Po Number-->
+                  <div class="text_align"></div>
+                  <!-- <div class="form-group jumbotron">
+                <input type="text" value="Balance Due" id="balanceShow" />
+                <span id="balanceDue"></span>
+              </div> -->
+                </form>
+              </div>
+            </div>
+            <!--1st Row END-->
+            <div class="row bilto_desktop">
+              <!--2st Row START-->
+              <div class="col-md-3 col-sm-3">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    id="toShow3"
+                    class="input_align_2"
+                    value="Bill To:"
+                  />
+                  <input
+                    type="text"
+                    name="to"
+                    class="form-control input_align_3"
+                    id="to3"
+                  />
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-3"></div>
+              <div class="col-md-3 col-sm-3">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    id="toShow3"
+                    class="input_align_4"
+                    value="Ship To:"
+                  />
+                  <input
+                    type="text"
+                    name="to"
+                    class="form-control input_align_5"
+                    id="to3"
+                  />
+                </div>
+              </div>
+            </div>
+            <!--2st Row END-->
+            <div class="row bilto_mobile">
+              <!--2st Row START-->
+              <div class="col-md-3 col-sm-3">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    id="toShow3"
+                    class="input_align_2"
+                    value="Bill To:"
+                  />
+                  <input
+                    type="text"
+                    name="to"
+                    class="form-control input_align_3_mobile"
+                    id="to3"
+                  />
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-3"></div>
+              <div class="col-md-3 col-sm-3">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    id="toShow3"
+                    class="input_align_4"
+                    value="Ship To:"
+                  />
+                  <input
+                    type="text"
+                    name="to"
+                    class="form-control input_align_3_mobile"
+                    id="to3"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div id="add">
+              <div class="row four_column">
+                <!--3st Row START-->
+                <div class="col item_column">
+                  <h5 contenteditable="true" id="i">Item</h5>
+                </div>
+                <div class="col">
+                  <h5 contenteditable="true" id="q">Quantity</h5>
+                </div>
+                <div class="col">
+                  <h5 contenteditable="true" id="r">Rate</h5>
+                </div>
+                <div class="col">
+                  <h5 contenteditable="true" id="a">Amount</h5>
+                </div>
+                <!-- <div class="col-md-8 col-sm-8 items">
+              <ul class="add_ul">
+                <li class="add_li">
+                  <h5 contenteditable="true" id="i">Item</h5>
+                </li>
+
+                <li class="add_li">
+                  <h5 contenteditable="true" id="q">Quantity</h5>
+                </li>
+
+                <li class="add_li">
+                  <h5 contenteditable="true" id="r">Rate</h5>
+                </li>
+
+                <li class="add_li">
+                  <h5 contenteditable="true" id="a">Amount</h5>
+                </li>
+              </ul> -->
+                <!-- <div class="row"> -->
+                <!-- <div class="col-sm-2">
+                  <h5 contenteditable="true" id="i">Item</h5>
+                </div>
+                <div class="col-sm-2">
+                  <h5 contenteditable="true" id="q">Quantity</h5>
+                </div>
+                <div class="col-sm-2 text-center">
+                  <h5 contenteditable="true" id="r">Rate</h5>
+                </div>
+                <div class="col-sm-2 text-center">
+                  <h5 contenteditable="true" id="a">Amount</h5>
+                </div>
+                <div class="col-sm-1"></div>
+              </div> -->
+                <!-- </div> -->
+              </div>
+            </div>
+            <!--3st Row END-->
+            <div class="alignment"></div>
+            <div class="row">
+              <!--4st Row START-->
+              <div class="col-md-4 col-sm-4">
+                <!-- <button class="btn btn-primary lineItem"> -->
+                <a class="lineItem">
+                  <span class="fa fa-plus icon_1"> Add Item</span></a
+                >
+                <!-- </button> -->
+                <form>
+                  <!--Notes-->
+                  <div class="notes_deskop">
+                    <div class="form-group">
+                      <div class="align_calc_03"></div>
+
+                      <input
+                        type="text"
+                        class="form-control notes"
+                        value="Notes"
+                        id="notes"
+                      />
+                      <input
+                        type="text"
+                        class="form-control notes_2"
+                        id="someNotes"
+                      />
+                    </div>
+                    <!--Terms-->
+                    <div class="form-group">
+                      <div class="align_calc_03"></div>
+                      <input
+                        type="text"
+                        class="form-control notes"
+                        value="Terms"
+                        id="terms"
+                      />
+                      <input
+                        type="text"
+                        class="form-control notes_2"
+                        id="someTerms"
+                      />
+                    </div>
+                  </div>
+                  <div class="notes_mobile">
+                    <div class="form-group">
+                      <div class="align_calc_03"></div>
+                      <input
+                        type="text"
+                        class="form-control notes"
+                        value="Notes"
+                        id="notes"
+                      />
+                      <input
+                        type="text"
+                        class="form-control notes_2_mobile"
+                        id="someNotes"
+                      />
+                    </div>
+                    <!--Terms-->
+                    <div class="form-group">
+                      <div class="align_calc_03"></div>
+                      <input
+                        type="text"
+                        class="form-control notes"
+                        value="Terms"
+                        id="terms"
+                      />
+                      <input
+                        type="text"
+                        class="form-control notes_2_mobile"
+                        id="someTerms"
+                      />
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              <div class="col-md-4 col-sm-4 last_cal">
+                <div class="grid_container">
+                  <form class="form-inline" id="final">
+                    <!--Subtotal-->
+
+                    <div class="form-group">
+                      <div class="grid_list">
+                        <input type="text" value="Subtotal" id="subtotal" />
+                      </div>
+                      <div class="grid_list">
+                        <span id="subtotalPrice"></span>
+                      </div>
+                      <!-- <div class="align_calc_02"></div> -->
+                    </div>
+
+                    <!--Discount Percentage-->
+
+                    <div class="form-group">
+                      <div class="grid_list">
+                        <input
+                          type="text"
+                          class="discount_tax_1"
+                          value="Discount %"
+                          id="discount"
+                        />
+                      </div>
+                      <div class="grid_list">
+                        <input
+                          type="text"
+                          class="discount_tax_2"
+                          id="discountPercent"
+                          value="0"
+                        />
+                      </div>
+                      <!-- <div class="align_calc_02"></div> -->
+                    </div>
+
+                    <!--Tax Percentage-->
+                    <div class="form-group">
+                      <div class="grid_list">
+                        <input
+                          type="text"
+                          class="discount_tax_1"
+                          value="Tax %"
+                          id="tax"
+                        />
+                      </div>
+                      <div class="grid_list">
+                        <input
+                          type="text"
+                          class="discount_tax_2"
+                          id="taxPercent"
+                          value="0"
+                        />
+                      </div>
+                      <!-- <div class="align_calc_02"></div> -->
+                    </div>
+                    <!--Shipping Charges-->
+                    <div class="form-group">
+                      <div class="grid_list">
+                        <input type="text" value="Shipping" id="shipping" />
+                      </div>
+                      <div class="grid_list">
+                        <input
+                          type="text"
+                          class="shipping"
+                          id="shippingCharges"
+                          value="0"
+                        />
+                      </div>
+                      <!-- <div class="align_calc_02"></div> -->
+                    </div>
+
+                    <!--Total Amount-->
+                    <div class="form-group">
+                      <div class="grid_list">
+                        <!-- <div class="align_calc_02"></div> -->
+                        <input
+                          type="text"
+                          class="total"
+                          value="Total"
+                          id="total"
+                        />
+                      </div>
+                      <div class="grid_list">
+                        <span id="totalAmount"></span>
+                      </div>
+                    </div>
+                    <!--Amount Paid-->
+
+                    <div class="form-group">
+                      <div class="grid_list">
+                        <!-- <div class="align_calc_02"></div> -->
+                        <input type="text" value="Amount Paid" id="amountp" />
+                      </div>
+                      <div class="grid_list">
+                        <input
+                          type="text"
+                          class="discount_tax_2"
+                          id="amountPaid"
+                          value="0"
+                        />
+                      </div>
+                    </div>
+
+                    <!-- jumbotron -->
+                    <div class="form-group">
+                      <div class="grid_list">
+                        <!-- <div class="align_calc_02"></div> -->
+                        <input
+                          type="text"
+                          value="Balance Due"
+                          class="shipping"
+                          id="balanceShow"
+                        />
+                      </div>
+                      <div class="grid_list">
+                        <span id="balanceDue"></span>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <!--Grid End-->
+              </div>
+              <div class="col-md-4 col-sm-4 last_cal_mobile">
+                <div class="grid_container">
+                  <form class="form-inline" id="final">
+                    <!--Subtotal-->
+
+                    <div class="form-group">
+                      <div class="grid_list">
+                        <input type="text" value="Subtotal" id="subtotal" />
+                      </div>
+                      <div class="grid_list">
+                        <span id="subtotalPrice"></span>
+                      </div>
+                      <!-- <div class="align_calc_02"></div> -->
+                    </div>
+
+                    <!--Discount Percentage-->
+
+                    <div class="form-group">
+                      <div class="grid_list">
+                        <input
+                          type="text"
+                          class="discount_tax_1"
+                          value="Discount %"
+                          id="discount"
+                        />
+                      </div>
+                      <div class="grid_list">
+                        <input
+                          type="text"
+                          class="discount_tax_2"
+                          id="discountPercent"
+                          value="0"
+                        />
+                      </div>
+                      <!-- <div class="align_calc_02"></div> -->
+                    </div>
+
+                    <!--Tax Percentage-->
+                    <div class="form-group">
+                      <div class="grid_list">
+                        <input
+                          type="text"
+                          class="discount_tax_1"
+                          value="Tax %"
+                          id="tax"
+                        />
+                      </div>
+                      <div class="grid_list">
+                        <input
+                          type="text"
+                          class="discount_tax_2"
+                          id="taxPercent"
+                          value="0"
+                        />
+                      </div>
+                      <!-- <div class="align_calc_02"></div> -->
+                    </div>
+                    <!--Shipping Charges-->
+                    <div class="form-group">
+                      <div class="grid_list">
+                        <input type="text" value="Shipping" id="shipping" />
+                      </div>
+                      <div class="grid_list">
+                        <input
+                          type="text"
+                          class="shipping"
+                          id="shippingCharges"
+                          value="0"
+                        />
+                      </div>
+                      <!-- <div class="align_calc_02"></div> -->
+                    </div>
+
+                    <!--Total Amount-->
+                    <div class="form-group">
+                      <div class="grid_list">
+                        <!-- <div class="align_calc_02"></div> -->
+                        <input
+                          type="text"
+                          class="total"
+                          value="Total"
+                          id="total"
+                        />
+                      </div>
+                      <div class="grid_list">
+                        <span id="totalAmount"></span>
+                      </div>
+                    </div>
+                    <!--Amount Paid-->
+
+                    <div class="form-group">
+                      <div class="grid_list">
+                        <!-- <div class="align_calc_02"></div> -->
+                        <input type="text" value="Amount Paid" id="amountp" />
+                      </div>
+                      <div class="grid_list">
+                        <input
+                          type="text"
+                          class="discount_tax_2"
+                          id="amountPaid"
+                          value="0"
+                        />
+                      </div>
+                    </div>
+
+                    <!-- jumbotron -->
+                    <div class="form-group">
+                      <div class="grid_list">
+                        <!-- <div class="align_calc_02"></div> -->
+                        <input
+                          type="text"
+                          value="Balance Due"
+                          class="shipping"
+                          id="balanceShow"
+                        />
+                      </div>
+                      <div class="grid_list">
+                        <span id="balanceDue"></span>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <!--Grid End-->
+              </div>
+            </div>
+            <!--4st Row END-->
+          </div>
+          <!--COl-8 END-->
+          <div class="col-md-4 col-sm-4">
+            <!-- Start  Currency-->
+            <div class="currency_third">
+              <form>
+                <div class="form-group">
+                  <label for="currencyPicker">Currency:</label>
+                  <select
+                    name="currency"
+                    class="form-control"
+                    id="currencyPicker"
+                  ></select>
+                </div>
+
+                <ion-icon name="arrow-down-circle-outline"></ion-icon>
+              </form>
+              <!--End Currency-->
+              <div class="container text-center download">
+                <button
+                  type="button"
+                  class="currency_desgin btn-lg"
+                  id="download"
+                >
+                  <img src="assets/image/down_arrow.png" />
+
+                  <span class="download_desgin">Download Invoice</span>
+                </button>
+              </div>
+              <div class="container text-center download_02">
+                <button
+                  type="button"
+                  class="currency_desgin_02 btn-lg"
+                  id="download"
+                >
+                  <img src="assets/image/bookmark.png" />
+                  <span class="download_desgin_02">Save Invoice</span>
+                </button>
+              </div>
+              <div class="container text-center download_02">
+                <button
+                  type="button"
+                  class="currency_desgin_02 btn-lg"
+                  id="download"
+                >
+                  <img src="assets/image/bill.png" />&nbsp;&nbsp;
+                  <span class="download_desgin_02">My Invoices</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!--End-->
+          <div class="col-md-4 col-sm-4">
+            <div class="currency_third_mobile">
+              <form>
+                <div class="form-group">
+                  <label for="currencyPicker">Currency:</label>
+                  <select
+                    name="currency"
+                    class="form-control"
+                    id="currencyPicker"
+                  ></select>
+                </div>
+              </form>
+              <!--End Currency-->
+              <div class="container text-center download">
+                <button
+                  type="button"
+                  class="currency_desgin btn-lg"
+                  id="download"
+                >
+                  <img src="assets/image/down_arrow.png" />
+                  <span class="download_desgin">Download Invoice</span>
+                </button>
+              </div>
+              <div class="container text-center download_02">
+                <button
+                  type="button"
+                  class="currency_desgin_02 btn-lg"
+                  id="download"
+                >
+                  <img src="assets/image/bookmark.png" />&nbsp;&nbsp;
+                  <span class="download_desgin_02">Save Invoice</span>
+                </button>
+              </div>
+              <div class="container text-center download_02">
+                <button
+                  type="button"
+                  class="currency_desgin_02 btn-lg"
+                  id="download"
+                >
+                  <img src="assets/image/bill.png" />&nbsp;&nbsp;
+                  <span class="download_desgin_02">My Invoices</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Main Row END-->
+      </div>
+      <!--Column END-->
+    </div>
+    <!--Container END-->
+
+    <app-root></app-root>
+  </body>
 </html>
